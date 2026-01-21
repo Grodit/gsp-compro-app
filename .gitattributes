@@ -1,0 +1,21 @@
+# Atur otomatisasi untuk semua file teks
+* text=auto
+
+# Pastikan file TypeScript dan React menggunakan LF
+*.ts text eol=lf
+*.tsx text eol=lf
+
+# File pendukung lainnya
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+
+# File binary (gambar, favicon, dll) tidak boleh diubah
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
