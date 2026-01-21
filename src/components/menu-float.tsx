@@ -72,7 +72,7 @@ function MenuFloat() {
                     className="relative inline-flex size-15 items-center justify-center"
                   >
                     <img
-                      src="/src/assets/logos/logoShortPutih.svg"
+                      src="/public/assets/logos/logoShortPutih.svg"
                       alt="logo"
                       draggable="false"
                       className="w-10 h-auto"
@@ -215,7 +215,7 @@ function MenuFloat() {
                           <div className="flex items-center justify-center my-6">
                             <div className="relative">
                               <img
-                                src="/src/assets/logos/logoLong.svg"
+                                src="/public/assets/logos/logoLong.svg"
                                 alt="logo"
                                 className="w-40 h-full"
                               />
