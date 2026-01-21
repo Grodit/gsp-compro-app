@@ -36,7 +36,7 @@ function MarqueTop() {
             <div key={item.id} className="flex items-center">
               <span className="mx-6 text-sm font-semibold">{item.text}</span>
               <img
-                src="/public/assets/logos/logoShortPutih.svg"
+                src="/assets/logos/logoShortPutih.svg"
                 alt="separator"
                 draggable="false"
                 className="size-5"

@@ -17,7 +17,7 @@ function WorkContent() {
           <div className="relative block rounded-lg overflow-hidden bg-card">
             <Link to="/" className="group">
               <img
-                src="/public/assets/images/example-karya-1.png"
+                src="/assets/images/example-karya-1.png"
                 alt="images"
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -40,7 +40,7 @@ function WorkContent() {
           <div className="relative block rounded-lg overflow-hidden bg-card">
             <Link to="/" className="group">
               <img
-                src="/public/assets/images/example-karya-1.png"
+                src="/assets/images/example-karya-1.png"
                 alt="images"
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -63,7 +63,7 @@ function WorkContent() {
           <div className="relative hidden lg:block rounded-lg overflow-hidden bg-card">
             <Link to="/" className="group">
               <img
-                src="/public/assets/images/example-karya-1.png"
+                src="/assets/images/example-karya-1.png"
                 alt="images"
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
               />

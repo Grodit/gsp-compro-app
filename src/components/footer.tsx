@@ -28,7 +28,7 @@ function Footer() {
           <div className="flex flex-col sm:flex-row justify-between items-center gap-10">
             <div className="shrink-0">
               <img
-                src="/public/assets/logos/logoLongPutih.svg"
+                src="/assets/logos/logoLongPutih.svg"
                 alt="logo"
                 className="w-50 h-auto"
               />
