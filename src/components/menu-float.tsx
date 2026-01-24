@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 
+// --- Konfigurasi ---
 const NAV_LINKS = [
   { label: 'Beranda', path: '/' },
   { label: 'Tentang Kami', path: '/tentang-kami', resetScroll: true },
@@ -18,6 +19,40 @@ const NAV_LINKS = [
   { label: 'Karya', path: '/karya' },
   { label: 'Layanan', path: '/layanan', resetScroll: true },
 ]
+
+const ANIMATION_VARIANTS: Record<string, Variants> = {
+  container: {
+    hidden: { opacity: 0, y: 20, scale: 0.95, filter: 'blur(10px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+        type: 'spring',
+        damping: 20,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: 30,
+      scale: 0.95,
+      filter: 'blur(10px)',
+      transition: {
+        duration: 0.2,
+        staggerChildren: 0.05,
+        staggerDirection: -1,
+      },
+    },
+  },
+  item: {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 10 },
+  },
+}
 
 // --- Custom Hook ---
 function useDynamicTheme() {
@@ -27,29 +62,25 @@ function useDynamicTheme() {
     const wrapper = document.getElementById('menu-float')
     if (!wrapper) return
 
-    const menuRect = wrapper.getBoundingClientRect()
+    const rect = wrapper.getBoundingClientRect()
     const x = window.innerWidth / 2
-    const y = menuRect.bottom - menuRect.height / 2
+    const y = rect.top + rect.height / 2
 
     wrapper.style.pointerEvents = 'none'
-    const elementUnderMenu = document.elementFromPoint(x, y)
+    const elementUnder = document.elementFromPoint(x, y)
     wrapper.style.pointerEvents = 'auto'
 
-    setIsDarkBg(!!elementUnderMenu?.closest('.is-dark-section'))
+    setIsDarkBg(!!elementUnder?.closest('.is-dark-section'))
   }, [])
 
   useEffect(() => {
-    // Reset state setiap kali pathname berubah
-    setIsDarkBg(false)
     handleScroll()
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('resize', handleScroll)
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleScroll)
     }
-    // handleScroll adalah memoized, pathname memicu re-run saat navigasi
   }, [handleScroll])
 
   return isDarkBg
@@ -57,21 +88,12 @@ function useDynamicTheme() {
 
 // --- Sub-komponen: Desktop ---
 function DesktopNav({ isDarkBg }: { isDarkBg: boolean }) {
-  const getActiveProps = useCallback(
-    () => ({
-      className: cn(
-        'font-bold scale-105 shadow-md transition-all duration-300 pointer-events-none',
-        isDarkBg ? 'bg-white text-black' : 'bg-accent/30 text-white',
-      ),
-    }),
-    [isDarkBg],
-  )
-
   return (
     <div className="hidden sm:flex items-center gap-2">
+      {/* Brand Box */}
       <div
         className={cn(
-          'group size-14 flex items-center justify-center rounded-xl transition-all duration-300 shadow-sm',
+          'group size-14 flex items-center justify-center rounded-xl transition-all shadow-sm',
           isDarkBg ? 'bg-white text-accent' : 'bg-accent text-white',
         )}
       >
@@ -81,14 +103,15 @@ function DesktopNav({ isDarkBg }: { isDarkBg: boolean }) {
               ? '/assets/logos/logoShort.svg'
               : '/assets/logos/logoShortPutih.svg'
           }
-          alt="logo"
           className="w-8 h-auto group-hover:rotate-6 transition-transform"
+          alt="logo"
         />
       </div>
 
+      {/* Nav List */}
       <nav
         className={cn(
-          'px-1.5 h-14 flex items-center rounded-xl border transition-all duration-300',
+          'px-1.5 h-14 flex items-center rounded-xl border transition-colors',
           isDarkBg
             ? 'bg-white/5 border-white/10'
             : 'bg-zinc-100 border-zinc-200',
@@ -100,37 +123,38 @@ function DesktopNav({ isDarkBg }: { isDarkBg: boolean }) {
               <Link
                 to={link.path}
                 resetScroll={link.resetScroll}
-                activeProps={getActiveProps()}
                 className={cn(
-                  'inline-flex items-center h-11 px-4 rounded-lg transition-all duration-300',
+                  'relative inline-flex items-center h-11 px-4 rounded-lg transition-all font-medium text-sm',
                   isDarkBg
-                    ? 'text-zinc-400 hover:text-white font-medium'
-                    : 'text-zinc-500 hover:text-black font-medium',
+                    ? 'text-zinc-400 hover:text-white'
+                    : 'text-zinc-500 hover:text-black',
                 )}
+                activeProps={{
+                  className: cn(
+                    '!text-white shadow-sm',
+                    isDarkBg ? 'bg-zinc-800' : 'bg-accent/80',
+                  ),
+                }}
               >
-                {link.label}
+                <span className="relative z-10">{link.label}</span>
               </Link>
             </li>
           ))}
         </ul>
       </nav>
 
+      {/* CTA Button */}
       <Link
         to="/"
         className={cn(
-          'size-14 flex items-center justify-center rounded-xl transition-all duration-300 shadow-lg active:scale-90 group',
-          isDarkBg
-            ? 'bg-amber-500 hover:bg-amber-400 text-accent'
-            : 'bg-amber-600 hover:bg-amber-700 text-white',
+          'size-14 flex items-center justify-center rounded-xl transition-all shadow-lg active:scale-90 group',
+          isDarkBg ? 'bg-amber-500 text-black' : 'bg-amber-600 text-white',
         )}
       >
         <HugeiconsIcon
           icon={CustomerService01Icon}
-          className="size-6 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300"
+          className="size-6 group-hover:rotate-12 transition-transform"
         />
-
-        {/* Tooltip sederhana yang muncul saat hover di desktop */}
-        <span className="sr-only">Konsultasikan</span>
       </Link>
     </div>
   )
@@ -146,40 +170,6 @@ function MobileDrawer({
   setIsOpen: (o: boolean) => void
   isDarkBg: boolean
 }) {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0, y: 50, scale: 0.9, filter: 'blur(10px)' },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      filter: 'blur(0px)',
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-        type: 'spring',
-        damping: 25,
-        stiffness: 200,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: 40,
-      scale: 0.95,
-      filter: 'blur(10px)',
-      transition: {
-        duration: 0.3,
-        staggerChildren: 0.05,
-        staggerDirection: -1,
-      },
-    },
-  }
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 10 },
-  }
-
   return (
     <div className="sm:hidden">
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
@@ -193,7 +183,7 @@ function MobileDrawer({
                 : 'bg-zinc-950 text-white border-white/10',
             )}
           >
-            <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+            <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
               <HugeiconsIcon
                 icon={isOpen ? XCircle : MenuIcon}
                 className="size-6"
@@ -217,36 +207,53 @@ function MobileDrawer({
 
                 <Dialog.Content asChild>
                   <motion.div
-                    variants={containerVariants}
+                    variants={ANIMATION_VARIANTS.container}
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="fixed bottom-28 left-6 right-6 z-101 outline-none"
+                    className="fixed bottom-6 left-6 right-6 z-101 outline-none max-h-[85vh] flex flex-col"
                   >
-                    {/* Mengatasi Peringatan Aksesibilitas Radix */}
                     <VisuallyHidden.Root>
-                      <Dialog.Title>Menu Navigasi Utama</Dialog.Title>
+                      <Dialog.Title>Menu Utama</Dialog.Title>
                       <Dialog.Description>
-                        Gunakan menu ini untuk berpindah halaman
+                        Navigasi Grodit Studio
                       </Dialog.Description>
                     </VisuallyHidden.Root>
 
                     <div
                       className={cn(
-                        'w-full p-3 rounded-[3rem] border-2 shadow-2xl backdrop-blur-3xl relative overflow-hidden',
+                        'w-full rounded-[2.5rem] border-2 shadow-2xl backdrop-blur-3xl overflow-hidden flex flex-col relative',
                         isDarkBg
                           ? 'bg-zinc-900/95 border-white/10 text-white'
                           : 'bg-white/95 border-zinc-200 text-black',
                       )}
                     >
-                      {/* Brand Logo & Title (Visible) */}
+                      {/* --- TOMBOL CLOSE EKSPLISIT --- */}
+                      <button
+                        type="button"
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          'absolute top-5 right-5 size-10 flex items-center justify-center rounded-full transition-colors z-20',
+                          isDarkBg
+                            ? 'bg-white/5 hover:bg-white/10'
+                            : 'bg-black/5 hover:bg-black/10',
+                        )}
+                        aria-label="Close menu"
+                      >
+                        <HugeiconsIcon
+                          icon={XCircle}
+                          className="size-6 opacity-50"
+                        />
+                      </button>
+
+                      {/* HEADER */}
                       <motion.div
-                        variants={itemVariants}
-                        className="flex flex-col items-center py-6 gap-2"
+                        variants={ANIMATION_VARIANTS.item}
+                        className="flex flex-col items-center py-8 shrink-0"
                       >
                         <div
                           className={cn(
-                            'size-12 rounded-2xl flex items-center justify-center shadow-inner',
+                            'size-12 rounded-2xl flex items-center justify-center mb-2',
                             isDarkBg ? 'bg-white/10' : 'bg-zinc-100',
                           )}
                         >
@@ -256,28 +263,28 @@ function MobileDrawer({
                                 ? '/assets/logos/logoShortPutih.svg'
                                 : '/assets/logos/logoShort.svg'
                             }
+                            className="w-6 h-auto"
                             alt="logo"
-                            className="w-7 h-auto"
                           />
                         </div>
-                        <div className="text-center">
-                          <h2 className="font-bold text-lg tracking-tight">
-                            Grodit Studio
-                          </h2>
-                          <p className="text-[10px] opacity-40 uppercase tracking-[0.2em]">
-                            Creative Production
-                          </p>
-                        </div>
+                        <h2 className="font-bold text-lg">Grodit Studio</h2>
+                        <p className="text-[9px] opacity-40 uppercase tracking-widest">
+                          Creative Production
+                        </p>
                       </motion.div>
 
-                      <nav className="flex flex-col gap-1.5">
+                      {/* NAV - Scrollable */}
+                      <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1.5 custom-scrollbar">
                         {NAV_LINKS.map((link) => (
-                          <motion.div key={link.label} variants={itemVariants}>
+                          <motion.div
+                            key={link.label}
+                            variants={ANIMATION_VARIANTS.item}
+                          >
                             <Link
                               to={link.path}
                               onClick={() => setIsOpen(false)}
                               className={cn(
-                                'relative flex items-center h-14 px-6 rounded-[1.8rem] transition-all duration-300 text-base font-medium',
+                                'relative flex items-center h-14 px-6 rounded-3xl transition-all text-base font-medium',
                                 isDarkBg
                                   ? 'hover:bg-white/5'
                                   : 'hover:bg-black/5',
@@ -287,19 +294,14 @@ function MobileDrawer({
                                 <>
                                   {isActive && (
                                     <motion.div
-                                      layoutId="activeTabMobile"
-                                      className="absolute inset-0 bg-amber-600 rounded-[1.8rem] -z-10 shadow-lg shadow-amber-600/40"
-                                      transition={{
-                                        type: 'spring',
-                                        bounce: 0.2,
-                                        duration: 0.6,
-                                      }}
+                                      layoutId="mobileActiveTab"
+                                      className="absolute inset-0 bg-amber-600 rounded-3xl -z-10 shadow-lg shadow-amber-600/30"
                                     />
                                   )}
                                   <span
                                     className={cn(
                                       'relative z-10',
-                                      isActive ? 'text-white' : 'opacity-70',
+                                      isActive ? 'text-white' : 'opacity-60',
                                     )}
                                   >
                                     {link.label}
@@ -309,39 +311,29 @@ function MobileDrawer({
                             </Link>
                           </motion.div>
                         ))}
+                      </nav>
 
-                        <motion.div variants={itemVariants} className="mt-2">
+                      {/* FOOTER */}
+                      <div className="p-4 pt-2 shrink-0 border-t border-current/5">
+                        <motion.div variants={ANIMATION_VARIANTS.item}>
                           <Link
                             to="/"
                             onClick={() => setIsOpen(false)}
-                            className={cn(
-                              'flex items-center justify-between h-16 px-6 rounded-[1.8rem] transition-all duration-300 shadow-xl active:scale-95 group bg-accent text-white',
-                            )}
+                            className="flex items-center justify-between h-15 px-6 rounded-3xl bg-accent text-white shadow-xl active:scale-95 group"
                           >
-                            <span className="font-bold text-base">
-                              Konsultasikan
-                            </span>
-                            <div
-                              className={cn(
-                                'size-10 rounded-full flex items-center justify-center transition-transform group-hover:rotate-12',
-                                isDarkBg ? 'bg-black/10' : 'bg-white/20',
-                              )}
-                            >
+                            <span className="font-bold">Konsultasikan</span>
+                            <div className="size-10 rounded-full bg-white/20 flex items-center justify-center">
                               <HugeiconsIcon
                                 icon={CustomerService01Icon}
-                                className="size-6"
+                                className="size-5"
                               />
                             </div>
                           </Link>
                         </motion.div>
-                      </nav>
-
-                      <motion.div
-                        variants={itemVariants}
-                        className="mt-4 pt-4 border-t border-current/5 pb-2 text-[9px] opacity-20 uppercase tracking-[0.3em] text-center"
-                      >
-                        © 2026 Grodit Studio
-                      </motion.div>
+                        <p className="mt-4 pb-2 text-[8px] opacity-20 uppercase tracking-[0.3em] text-center">
+                          © 2026 Grodit Studio
+                        </p>
+                      </div>
                     </div>
                   </motion.div>
                 </Dialog.Content>
@@ -357,19 +349,19 @@ function MobileDrawer({
 // --- Komponen Utama ---
 export function MenuFloat() {
   const [isOpen, setIsOpen] = useState(false)
-  const isDarkBg = useDynamicTheme() // Hook menangani pathname secara internal
+  const isDarkBg = useDynamicTheme()
 
   return (
     <div
       id="menu-float"
-      className="z-50 fixed left-0 bottom-8 w-full text-[13px] select-none px-4"
+      className="z-50 fixed left-0 bottom-8 w-full select-none px-4"
     >
       <div className="mx-auto flex justify-center">
         <div
           className={cn(
-            'relative flex flex-col min-w-0 max-w-fit p-1.5 rounded-2xl backdrop-blur-2xl transition-all duration-500 border-2',
+            'relative flex flex-col p-1.5 rounded-2xl backdrop-blur-2xl transition-all duration-500 border-2',
             isDarkBg
-              ? 'bg-accent/40 border-white/10 shadow-2xl'
+              ? 'bg-zinc-900/40 border-white/10 shadow-2xl'
               : 'bg-white/40 border-zinc-200 shadow-xl',
           )}
         >

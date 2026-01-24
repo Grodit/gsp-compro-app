@@ -79,26 +79,28 @@ function ProcessContent() {
           </div>
 
           {/* Bottom CTA Section */}
-          <div className="text-center mt-20 space-y-12">
-            <div className="max-w-4xl mx-auto">
-              <p className="bg-linear-to-r from-[#babad0] via-white to-[#babad0] bg-clip-text text-transparent text-2xl md:text-4xl font-medium leading-relaxed italic">
+          <div className="text-center mt-20 space-y-8 md:space-y-12">
+            <div className="max-w-4xl mx-auto px-4">
+              <p className="bg-linear-to-r from-[#babad0] via-white to-[#babad0] bg-clip-text text-transparent text-xl md:text-3xl lg:text-4xl font-medium leading-relaxed italic">
                 "Ubah setiap kunjungan menjadi kepercayaan, dan setiap klik
                 menjadi kemitraan setia."
               </p>
             </div>
 
-            <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center gap-4 md:gap-6">
               <Button
                 variant="secondary"
-                className="rounded-full px-10 py-8 text-xl font-semibold bg-white text-black hover:bg-neutral-200 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)]"
+                className="rounded-full px-8 py-6 md:px-10 md:py-8 text-base md:text-xl font-semibold bg-white text-black hover:bg-neutral-200 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)] w-full max-w-xs md:max-w-none"
                 asChild
               >
                 <Link to="/">Jadwalkan Konsultasi Strategis</Link>
               </Button>
-              <div className="flex items-center gap-3 text-sm text-neutral-500 uppercase tracking-widest font-light">
-                <span className="relative flex h-2 w-2">
+
+              {/* Penyesuaian teks 15 Menit: text-[9px] (mobile) ke text-sm (desktop) */}
+              <div className="flex items-center gap-2 md:gap-3 text-[9px] md:text-sm text-neutral-500 uppercase tracking-widest font-light">
+                <span className="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 md:h-2 md:w-2 bg-blue-500"></span>
                 </span>
                 15 Menit • Sesi Strategi Gratis
               </div>
