@@ -90,7 +90,7 @@ function ProcessContent() {
             <div className="flex flex-col items-center gap-4 md:gap-6">
               <Button
                 variant="secondary"
-                className="rounded-full px-8 py-6 md:px-10 md:py-8 text-base md:text-xl font-semibold bg-white text-black hover:bg-neutral-200 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)] w-full max-w-xs md:max-w-none"
+                className="rounded-full px-8 py-6 md:px-10 md:py-8 text-base md:text-xl font-semibold bg-white text-black hover:bg-neutral-200 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.1)] w-full max-w-xs md:max-w-fit"
                 asChild
               >
                 <Link to="/">Jadwalkan Konsultasi Strategis</Link>

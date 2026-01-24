@@ -276,10 +276,7 @@ function MobileDrawer({
                       {/* NAV - Scrollable */}
                       <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1.5 custom-scrollbar">
                         {NAV_LINKS.map((link) => (
-                          <motion.div
-                            key={link.label}
-                            variants={ANIMATION_VARIANTS.item}
-                          >
+                          <div key={link.label}>
                             <Link
                               to={link.path}
                               onClick={() => setIsOpen(false)}
@@ -293,10 +290,7 @@ function MobileDrawer({
                               {({ isActive }) => (
                                 <>
                                   {isActive && (
-                                    <motion.div
-                                      layoutId="mobileActiveTab"
-                                      className="absolute inset-0 bg-amber-600 rounded-3xl -z-10 shadow-lg shadow-amber-600/30"
-                                    />
+                                    <div className="absolute inset-0 bg-amber-600 rounded-3xl -z-10 shadow-lg shadow-amber-600/30" />
                                   )}
                                   <span
                                     className={cn(
@@ -309,7 +303,7 @@ function MobileDrawer({
                                 </>
                               )}
                             </Link>
-                          </motion.div>
+                          </div>
                         ))}
                       </nav>
 
