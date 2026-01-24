@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { motion } from 'motion/react'
+import { cn } from '@/lib/utils'
 
 // Sub-komponen untuk Kartu Portofolio agar kode tidak berulang
 function PortfolioCard({
@@ -33,7 +34,14 @@ function PortfolioCard({
 
         {/* Konten Teks */}
         <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-8">
-          <motion.span className="text-amber-500 text-xs md:text-sm font-medium uppercase tracking-[0.2em] mb-2 block translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+          <motion.span
+            className={cn(
+              'text-amber-500 text-xs md:text-sm font-medium uppercase tracking-[0.2em] mb-2 block transition-all duration-500',
+              // Mobile: Muncul (opacity-100, translate-0)
+              // Desktop (md): Sembunyi, baru muncul saat hover group
+              'opacity-100 translate-y-0 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0',
+            )}
+          >
             {category}
           </motion.span>
 
@@ -42,9 +50,16 @@ function PortfolioCard({
               {title}
             </h4>
 
-            {/* Dekorasi Garis Bawah yang muncul dari kiri ke kanan */}
+            {/* Dekorasi Garis Bawah */}
             <div className="h-0.5 w-full bg-white/20 relative overflow-hidden">
-              <div className="absolute inset-0 bg-amber-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
+              <div
+                className={cn(
+                  'absolute inset-0 bg-amber-600 transition-transform duration-500 ease-in-out',
+                  // Mobile: Garis sudah di posisi (translate-x-0)
+                  // Desktop (md): Mulai dari kiri (-translate-x-full)
+                  'translate-x-0 lg:-translate-x-full lg:group-hover:translate-x-0',
+                )}
+              />
             </div>
           </div>
         </div>

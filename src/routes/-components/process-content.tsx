@@ -53,7 +53,7 @@ function ProcessContent() {
               <div key={index++} className="group relative h-full">
                 {/* Subtle Animated Border */}
                 <div
-                  className={`absolute -inset-px animate-rotate ${step.rotation} rounded-2xl bg-linear-to-r from-blue-500/50 via-purple-500/50 to-transparent blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700`}
+                  className={`absolute -inset-px animate-rotate ${step.rotation} rounded-2xl bg-linear-(--rotate) from-blue-500/50 via-purple-500/50 to-transparent blur-sm opacity-100 transition-opacity duration-700`}
                 />
 
                 {/* Main Card Content */}
