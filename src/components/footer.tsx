@@ -13,7 +13,7 @@ function Footer() {
       <footer className="sticky bg-foreground py-40 space-y-30 -bottom-160 md:-bottom-130">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:mt-10">
           <div className="grid gap-8 items-center place-items-center mx-auto">
-            <h2 className="text-4xl md:text-6xl font-semibold text-center text-pretty max-w-[16ch] text-white">
+            <h2 className="text-4xl md:text-6xl font-semibold text-center text-pretty max-w-[16ch] bg-linear-90 from-[#babad0] to-[#53628d]/80 bg-clip-text text-transparent">
               Maksimalkan Efisiensi dan Profitabilitas Investasi Anda dengan
               Desain Web di Indonesia
             </h2>

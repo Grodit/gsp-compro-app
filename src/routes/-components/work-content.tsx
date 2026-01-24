@@ -1,95 +1,84 @@
+'use client'
+
+import { ArrowRightIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
+// Menggunakan impor terbaru sesuai contoh Anda
+import { motion, useScroll, useTransform } from 'motion/react'
+import { useRef } from 'react'
+import { Button } from '@/components/ui/button'
 
 function WorkContent() {
+  const containerRef = useRef(null)
+
+  // 1. Tangkap progress scroll
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    // "start end" = bagian atas elemen menyentuh bawah layar
+    // "end start" = bagian bawah elemen meninggalkan atas layar
+    offset: ['start end', 'end start'],
+  })
+
+  // 2. Transformasi progress (0 sampai 1) menjadi Scale dan Y
+  // Gambar membesar dari 1x ke 1.3x
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.3])
+  // Gambar bergerak ke atas sejauh 150px (efek parallax)
+  const y = useTransform(scrollYProgress, [0, 1], [0, -150])
+
   return (
-    <div className="select-none mt-20 pb-30">
-      <div className="w-full px-6">
-        <div className="text-center flex flex-col items-center justify-center relative mb-20">
-          <h2 className="text-md mb-6">Terbaru</h2>
-          <h3 className="relative inline-block text-7xl md:text-8xl uppercase font-semibold">
-            <span className="inline-block relative">Karya</span>
-          </h3>
-          <h2 className="mt-6 inline-block text-md">
-            Jelajahi Standar Baru Desain Kami di Grodit Studio Production
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="relative block rounded-lg overflow-hidden bg-card">
-            <Link to="/" className="group">
-              <img
-                src="/assets/images/example-karya-1.png"
-                alt="images"
-                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 flex items-end justify-between px-4 py-6 z-2 bg-linear-to-t from-primary/80 to-transparent">
-                <div className="flex flex-col flex-1 items-start">
-                  <div className="text-primary-foreground mt-1">Website</div>
+    <div
+      ref={containerRef}
+      className="relative flex flex-col items-start bg-foreground h-screen w-full p-10 md:p-15 overflow-hidden"
+    >
+      <div className="absolute -inset-1 overflow-hidden">
+        {/* 3. Gunakan motion.img dan hubungkan dengan style animasi */}
+        <motion.img
+          src="/assets/images/example-karya-1.png"
+          alt="images"
+          style={{
+            scale: scale,
+            y: y,
+          }}
+          className="w-full h-full object-cover object-center brightness-50"
+        />
+      </div>
 
-                  {/* Kontainer teks dengan underline */}
-                  <div className="relative inline-block">
-                    <span className="text-primary-foreground text-2xl font-semibold">
-                      Grodit Studio Production
-                    </span>
-                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-foreground/30"></span>
-                    <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-foreground transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-                  </div>
+      {/* Konten teks tetap di atas (relative) */}
+      <div className="relative w-full flex flex-1 flex-col items-start justify-center gap-4">
+        <h1 className="text-5xl md:text-6xl text-primary-foreground font-semibold uppercase tracking-wide">
+          Karya
+        </h1>
+        <h3 className="text-3xl md:text-4xl text-primary-foreground">
+          Wujudkan visi dengan{' '}
+          <strong className="capitalize text-amber-600">
+            estetika progresif
+          </strong>{' '}
+          di Grodit Studio.
+        </h3>
+
+        <div className="mt-40 text-center sm:text-left w-full">
+          <Button
+            variant="ghost"
+            className="group relative h-auto p-0 hover:bg-transparent"
+          >
+            <Link to="/karya">
+              <div className="relative flex items-center gap-4 py-4 pr-4 transition-all duration-500">
+                <span className="text-3xl md:text-4xl font-semibold text-primary-foreground tracking-tight transition-all duration-500 group-hover:pr-8 z-1">
+                  Jelajahi Karya
+                </span>
+                <div className="absolute -right-2 top-5 opacity-0 transition-all duration-500 transform -translate-x-20 group-hover:opacity-100 group-hover:translate-x-0">
+                  <HugeiconsIcon
+                    icon={ArrowRightIcon}
+                    className="size-8 md:size-10 text-amber-600"
+                  />
+                </div>
+                <div className="absolute bottom-0 left-0 h-0.5 w-full overflow-hidden">
+                  <div className="absolute inset-0 bg-primary-foreground/20" />
+                  <div className="absolute inset-0 bg-amber-600 -translate-x-full transition-transform duration-500 ease-out group-hover:translate-x-0" />
                 </div>
               </div>
             </Link>
-          </div>
-          <div className="relative block rounded-lg overflow-hidden bg-card">
-            <Link to="/" className="group">
-              <img
-                src="/assets/images/example-karya-1.png"
-                alt="images"
-                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 flex items-end justify-between px-4 py-6 z-2 bg-linear-to-t from-primary/80 to-transparent">
-                <div className="flex flex-col flex-1 items-start">
-                  <div className="text-primary-foreground mt-1">Website</div>
-
-                  {/* Kontainer teks dengan underline */}
-                  <div className="relative inline-block">
-                    <span className="text-primary-foreground text-2xl font-semibold">
-                      Grodit Studio Production
-                    </span>
-                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-foreground/30"></span>
-                    <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-foreground transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-          <div className="relative hidden lg:block rounded-lg overflow-hidden bg-card">
-            <Link to="/" className="group">
-              <img
-                src="/assets/images/example-karya-1.png"
-                alt="images"
-                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 flex items-end justify-between px-4 py-6 z-2 bg-linear-to-t from-primary/80 to-transparent">
-                <div className="flex flex-col flex-1 items-start">
-                  <div className="text-primary-foreground mt-1">Website</div>
-
-                  {/* Kontainer teks dengan underline */}
-                  <div className="relative inline-block">
-                    <span className="text-primary-foreground text-2xl font-semibold">
-                      Grodit Studio Production
-                    </span>
-                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary-foreground/30"></span>
-                    <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-foreground transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-        <div className="flex flex-col items-center justify-center mt-10">
-          <Link to="/" className="group relative">
-            <span className="font-medium">Lihat semua situs web</span>
-            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary/30"></span>
-            <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as pagesRouteRouteImport } from './routes/(pages)/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as pagesTentangIndexRouteImport } from './routes/(pages)/tentang/index'
+import { Route as pagesTentangKamiIndexRouteImport } from './routes/(pages)/tentang-kami/index'
+import { Route as pagesPortofolioIndexRouteImport } from './routes/(pages)/portofolio/index'
+import { Route as pagesLayananIndexRouteImport } from './routes/(pages)/layanan/index'
+import { Route as pagesKaryaIndexRouteImport } from './routes/(pages)/karya/index'
 
 const pagesRouteRoute = pagesRouteRouteImport.update({
   id: '/(pages)',
@@ -22,32 +25,63 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const pagesTentangIndexRoute = pagesTentangIndexRouteImport.update({
-  id: '/tentang/',
-  path: '/tentang/',
+const pagesTentangKamiIndexRoute = pagesTentangKamiIndexRouteImport.update({
+  id: '/tentang-kami/',
+  path: '/tentang-kami/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesPortofolioIndexRoute = pagesPortofolioIndexRouteImport.update({
+  id: '/portofolio/',
+  path: '/portofolio/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesLayananIndexRoute = pagesLayananIndexRouteImport.update({
+  id: '/layanan/',
+  path: '/layanan/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+const pagesKaryaIndexRoute = pagesKaryaIndexRouteImport.update({
+  id: '/karya/',
+  path: '/karya/',
   getParentRoute: () => pagesRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/tentang/': typeof pagesTentangIndexRoute
+  '/karya/': typeof pagesKaryaIndexRoute
+  '/layanan/': typeof pagesLayananIndexRoute
+  '/portofolio/': typeof pagesPortofolioIndexRoute
+  '/tentang-kami/': typeof pagesTentangKamiIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/tentang': typeof pagesTentangIndexRoute
+  '/karya': typeof pagesKaryaIndexRoute
+  '/layanan': typeof pagesLayananIndexRoute
+  '/portofolio': typeof pagesPortofolioIndexRoute
+  '/tentang-kami': typeof pagesTentangKamiIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(pages)': typeof pagesRouteRouteWithChildren
-  '/(pages)/tentang/': typeof pagesTentangIndexRoute
+  '/(pages)/karya/': typeof pagesKaryaIndexRoute
+  '/(pages)/layanan/': typeof pagesLayananIndexRoute
+  '/(pages)/portofolio/': typeof pagesPortofolioIndexRoute
+  '/(pages)/tentang-kami/': typeof pagesTentangKamiIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tentang/'
+  fullPaths: '/' | '/karya/' | '/layanan/' | '/portofolio/' | '/tentang-kami/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tentang'
-  id: '__root__' | '/' | '/(pages)' | '/(pages)/tentang/'
+  to: '/' | '/karya' | '/layanan' | '/portofolio' | '/tentang-kami'
+  id:
+    | '__root__'
+    | '/'
+    | '/(pages)'
+    | '/(pages)/karya/'
+    | '/(pages)/layanan/'
+    | '/(pages)/portofolio/'
+    | '/(pages)/tentang-kami/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -71,22 +105,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(pages)/tentang/': {
-      id: '/(pages)/tentang/'
-      path: '/tentang'
-      fullPath: '/tentang/'
-      preLoaderRoute: typeof pagesTentangIndexRouteImport
+    '/(pages)/tentang-kami/': {
+      id: '/(pages)/tentang-kami/'
+      path: '/tentang-kami'
+      fullPath: '/tentang-kami/'
+      preLoaderRoute: typeof pagesTentangKamiIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/portofolio/': {
+      id: '/(pages)/portofolio/'
+      path: '/portofolio'
+      fullPath: '/portofolio/'
+      preLoaderRoute: typeof pagesPortofolioIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/layanan/': {
+      id: '/(pages)/layanan/'
+      path: '/layanan'
+      fullPath: '/layanan/'
+      preLoaderRoute: typeof pagesLayananIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/karya/': {
+      id: '/(pages)/karya/'
+      path: '/karya'
+      fullPath: '/karya/'
+      preLoaderRoute: typeof pagesKaryaIndexRouteImport
       parentRoute: typeof pagesRouteRoute
     }
   }
 }
 
 interface pagesRouteRouteChildren {
-  pagesTentangIndexRoute: typeof pagesTentangIndexRoute
+  pagesKaryaIndexRoute: typeof pagesKaryaIndexRoute
+  pagesLayananIndexRoute: typeof pagesLayananIndexRoute
+  pagesPortofolioIndexRoute: typeof pagesPortofolioIndexRoute
+  pagesTentangKamiIndexRoute: typeof pagesTentangKamiIndexRoute
 }
 
 const pagesRouteRouteChildren: pagesRouteRouteChildren = {
-  pagesTentangIndexRoute: pagesTentangIndexRoute,
+  pagesKaryaIndexRoute: pagesKaryaIndexRoute,
+  pagesLayananIndexRoute: pagesLayananIndexRoute,
+  pagesPortofolioIndexRoute: pagesPortofolioIndexRoute,
+  pagesTentangKamiIndexRoute: pagesTentangKamiIndexRoute,
 }
 
 const pagesRouteRouteWithChildren = pagesRouteRoute._addFileChildren(

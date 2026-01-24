@@ -49,7 +49,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="relative">
         <div className="flex flex-col min-h-screen" id="body-wrapper">
           <MarqueTop />
           <section id="content">

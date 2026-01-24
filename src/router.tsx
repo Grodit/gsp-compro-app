@@ -14,7 +14,8 @@ export const getRouter = () => {
     context: {
       ...rqContext,
     },
-
+    scrollRestoration: true,
+    scrollRestorationBehavior: 'smooth',
     defaultPreload: 'intent',
     defaultNotFoundComponent: () => {
       return <div>404 - Tidak Ditemukan</div>

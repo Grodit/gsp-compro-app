@@ -130,11 +130,16 @@
 
 @theme {
   --animate-rotate: rotate 5s linear infinite;
-  
   @keyframes rotate {
     0% { --rotate: var(--start, 0deg); }
     100% { --rotate: calc(var(--start, 0deg) + 360deg); }
-  }
+  };
+
+  --animate-marquee: marquee 60s linear infinite;
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  };
 }
 
 @layer base {

@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HeroContent } from './-components/hero-content'
+import { PortfolioContent } from './-components/portfolio-content'
 import { ProcessContent } from './-components/process-content'
 import { WorkContent } from './-components/work-content'
 
@@ -11,10 +12,13 @@ function App() {
       <div id="header-content">
         <HeroContent />
       </div>
-      <div id="process-content" className="is-dark-section relative z-10">
+      <div id="process-content" className="is-dark-section">
         <ProcessContent />
       </div>
-      <div id="work-content">
+      <div id="portfolio-content">
+        <PortfolioContent />
+      </div>
+      <div id="work-content" className="relative is-dark-section min-h-screen">
         <WorkContent />
       </div>
     </>

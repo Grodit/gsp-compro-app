@@ -5,10 +5,5 @@ export const Route = createFileRoute('/(pages)')({
 })
 
 function PagesLayout() {
-  return (
-    <>
-      <div>Header</div>
-      <Outlet />
-    </>
-  )
+  return <Outlet />
 }
