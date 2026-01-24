@@ -1,87 +1,129 @@
-'use client'
-
 import { ArrowRightIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link } from '@tanstack/react-router'
-// Menggunakan impor terbaru sesuai contoh Anda
-import { motion, useScroll, useTransform } from 'motion/react'
+import { motion, useScroll, useSpring, useTransform } from 'motion/react'
 import { useRef } from 'react'
 import { Button } from '@/components/ui/button'
 
 function WorkContent() {
   const containerRef = useRef(null)
 
-  // 1. Tangkap progress scroll
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    // "start end" = bagian atas elemen menyentuh bawah layar
-    // "end start" = bagian bawah elemen meninggalkan atas layar
-    offset: ['start end', 'end start'],
+  // 1. Progress Scroll
+  const { scrollYProgress } = useScroll()
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
   })
 
-  // 2. Transformasi progress (0 sampai 1) menjadi Scale dan Y
-  // Gambar membesar dari 1x ke 1.3x
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.3])
-  // Gambar bergerak ke atas sejauh 150px (efek parallax)
-  const y = useTransform(scrollYProgress, [0, 1], [0, -150])
+  // 2. Animasi Background (Subtle Parallax)
+  const scale = useTransform(smoothProgress, [0, 1], [1.05, 1.15])
+  const yBg = useTransform(smoothProgress, [0, 1], ['-5%', '5%'])
+
+  // 3. Animasi Teks (Floating Parallax)
+  // Membuat teks terasa mengambang di depan gambar
+  const yText = useTransform(smoothProgress, [0, 1], [0, -30])
+
+  const arrowVariants = {
+    initial: { x: 0 },
+    hover: { x: 12 }, // Jarak geser panah
+  }
 
   return (
-    <div
+    <section
       ref={containerRef}
       className="relative flex flex-col items-start bg-foreground h-screen w-full p-10 md:p-15 overflow-hidden"
     >
-      <div className="absolute -inset-1 overflow-hidden">
-        {/* 3. Gunakan motion.img dan hubungkan dengan style animasi */}
-        <motion.img
-          src="/assets/images/example-karya-1.png"
-          alt="images"
-          style={{
-            scale: scale,
-            y: y,
-          }}
-          className="w-full h-full object-cover object-center brightness-50"
-        />
+      {/* Container Gambar dengan Overlay Gradien agar teks lebih terbaca */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          style={{ scale, y: yBg }}
+          className="relative w-full h-full"
+        >
+          <img
+            src="/assets/images/example-karya-1.png"
+            alt="Portfolio Background"
+            className="w-full h-full object-cover object-center brightness-[0.35]"
+          />
+          {/* Vignette Overlay untuk menambah kedalaman visual */}
+          <div className="absolute inset-0 bg-radial-gradient from-transparent to-foreground/50" />
+        </motion.div>
       </div>
 
-      {/* Konten teks tetap di atas (relative) */}
-      <div className="relative w-full flex flex-1 flex-col items-start justify-center gap-4">
-        <h1 className="text-5xl md:text-6xl text-primary-foreground font-semibold uppercase tracking-wide">
-          Karya
-        </h1>
-        <h3 className="text-3xl md:text-4xl text-primary-foreground">
+      {/* Konten Utama dengan Animasi Reveal */}
+      <motion.div
+        style={{ y: yText }}
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="relative w-full flex flex-1 flex-col items-start justify-center gap-6"
+      >
+        <div className="space-y-2">
+          <motion.h1 className="text-4xl md:text-7xl text-primary-foreground font-bold uppercase tracking-tighter">
+            Karya
+          </motion.h1>
+          <div className="h-1 w-20 bg-amber-600 rounded-full" />
+        </div>
+
+        <h3 className="text-2xl md:text-5xl text-primary-foreground max-w-[20ch] leading-tight">
           Wujudkan visi dengan{' '}
-          <strong className="capitalize text-amber-600">
+          <span className="italic text-amber-500 font-serif">
             estetika progresif
-          </strong>{' '}
+          </span>{' '}
           di Grodit Studio.
         </h3>
 
-        <div className="mt-40 text-center sm:text-left w-full">
+        <div className="mt-12 text-center sm:text-left w-full">
           <Button
             variant="ghost"
             className="group relative h-auto p-0 hover:bg-transparent"
+            asChild
           >
             <Link to="/karya">
-              <div className="relative flex items-center gap-4 py-4 pr-4 transition-all duration-500">
-                <span className="text-3xl md:text-4xl font-semibold text-primary-foreground tracking-tight transition-all duration-500 group-hover:pr-8 z-1">
+              {/* 2. Ubah div pembungkus menjadi motion.div 
+          Tambahkan 'initial' dan 'whileHover' di sini sebagai satu kesatuan GROUP
+        */}
+              <motion.div
+                initial="initial"
+                whileHover="hover"
+                className="relative flex items-center gap-6 py-4 pr-6 transition-all duration-500"
+              >
+                <span className="text-2xl md:text-3xl font-medium text-primary-foreground tracking-tight transition-all duration-500 group-hover:text-amber-500 z-1">
                   Jelajahi Karya
                 </span>
-                <div className="absolute -right-2 top-5 opacity-0 transition-all duration-500 transform -translate-x-20 group-hover:opacity-100 group-hover:translate-x-0">
+
+                {/* 3. Hubungkan ikon dengan variants tadi.
+            Hapus 'whileHover' yang ada di sini sebelumnya.
+          */}
+                <motion.div
+                  variants={arrowVariants}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  className="flex items-center justify-center"
+                >
                   <HugeiconsIcon
                     icon={ArrowRightIcon}
-                    className="size-8 md:size-10 text-amber-600"
+                    className="size-8 md:size-10 text-amber-600 transition-transform group-hover:scale-110"
                   />
-                </div>
+                </motion.div>
+
+                {/* Garis Bawah */}
                 <div className="absolute bottom-0 left-0 h-0.5 w-full overflow-hidden">
-                  <div className="absolute inset-0 bg-primary-foreground/20" />
-                  <div className="absolute inset-0 bg-amber-600 -translate-x-full transition-transform duration-500 ease-out group-hover:translate-x-0" />
+                  <div className="absolute inset-0 bg-primary-foreground/10" />
+                  <div className="absolute inset-0 bg-amber-600 -translate-x-full transition-transform duration-700 ease-in-out group-hover:translate-x-0" />
                 </div>
-              </div>
+              </motion.div>
             </Link>
           </Button>
         </div>
+      </motion.div>
+
+      {/* Indikator Scroll di pojok bawah (Opsional) */}
+      <div className="absolute bottom-10 right-10 hidden md:block">
+        <div className="text-[10px] uppercase tracking-[0.5em] text-neutral-500 vertical-text rotate-90 origin-right">
+          Scroll to explore
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

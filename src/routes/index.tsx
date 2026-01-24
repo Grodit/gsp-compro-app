@@ -18,7 +18,7 @@ function App() {
       <div id="portfolio-content">
         <PortfolioContent />
       </div>
-      <div id="work-content" className="relative is-dark-section min-h-screen">
+      <div id="work-content" className="is-dark-section">
         <WorkContent />
       </div>
     </>

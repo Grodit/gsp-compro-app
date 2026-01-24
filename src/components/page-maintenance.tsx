@@ -18,11 +18,11 @@ function PageMaintenance() {
           Perawatan Terjadwal
         </div>
 
-        <h1 className="text-5xl md:text-7xl uppercase font-extrabold tracking-tight text-slate-900">
+        <h1 className="text-4xl md:text-7xl uppercase font-extrabold tracking-tight text-slate-900">
           Ups! Kami Sedang <span className="text-primary">Berbenah Diri</span>
         </h1>
 
-        <p className="text-lg text-slate-600 max-w-lg leading-relaxed">
+        <p className="text-base text-slate-600 max-w-lg leading-relaxed">
           Halo! Kami sedang merapikan beberapa sudut website agar pengalaman
           berkunjungmu jadi lebih seru. Jangan khawatir, kami tidak akan lama.
         </p>
@@ -36,7 +36,7 @@ function PageMaintenance() {
 
         <Button
           asChild
-          className="w-fit py-7 px-10 text-xl rounded-full transition-all duration-300"
+          className="w-fit py-5 px-8 sm:py-7 sm:px-10 text-md sm:text-xl rounded-full transition-all duration-300"
         >
           <Link to="/">Sampai jumpa sebentar lagi!</Link>
         </Button>
