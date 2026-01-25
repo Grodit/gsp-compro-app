@@ -20,10 +20,10 @@ import { cn } from '@/lib/utils'
 
 // --- Konfigurasi ---
 const NAV_LINKS = [
-  { label: 'Beranda', path: '/' },
+  { label: 'Beranda', path: '/', resetScroll: true },
   { label: 'Tentang Kami', path: '/tentang-kami', resetScroll: true },
-  { label: 'Portofolio', path: '/portofolio' },
-  { label: 'Karya', path: '/karya' },
+  { label: 'Portofolio', path: '/portofolio', resetScroll: true },
+  { label: 'Karya', path: '/karya', resetScroll: true },
   { label: 'Layanan', path: '/layanan', resetScroll: true },
 ]
 
@@ -197,10 +197,7 @@ function MobileDrawer({
                 {/* Navigasi Links dengan flex-1 agar memenuhi ruang */}
                 <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1.5 custom-scrollbar min-h-50">
                   {NAV_LINKS.map((link) => (
-                    <motion.div
-                      key={link.label}
-                      variants={ANIMATION_VARIANTS.item}
-                    >
+                    <div key={link.label}>
                       <Link
                         to={link.path}
                         onClick={() => setIsOpen(false)}
@@ -212,10 +209,7 @@ function MobileDrawer({
                         {({ isActive }) => (
                           <>
                             {isActive && (
-                              <motion.div
-                                layoutId="activeHighlight"
-                                className="absolute inset-0 bg-amber-600 rounded-3xl -z-10 shadow-lg shadow-amber-600/30"
-                              />
+                              <div className="absolute inset-0 bg-amber-600 rounded-3xl -z-10 shadow-lg shadow-amber-600/30" />
                             )}
                             <span
                               className={cn(
@@ -228,7 +222,7 @@ function MobileDrawer({
                           </>
                         )}
                       </Link>
-                    </motion.div>
+                    </div>
                   ))}
                 </nav>
 

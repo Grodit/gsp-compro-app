@@ -17,7 +17,7 @@ function HeroContent() {
   }, [])
 
   return (
-    <div className="min-h-[calc(100vh-40px)] flex flex-col relative overflow-hidden bg-background select-none">
+    <div className="min-h-[calc(100vh-32px)] flex flex-col relative overflow-hidden bg-background select-none">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute left-1/2 top-0 w-px h-full bg-border" />

@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({ component: App })
 function App() {
   return (
     <>
-      <div id="header-content">
+      <div id="hero-content">
         <HeroContent />
       </div>
       <div id="process-content" className="is-dark-section">

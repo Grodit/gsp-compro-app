@@ -17,21 +17,22 @@ function MarqueTop() {
 
   return (
     <div
-      className="relative flex overflow-hidden bg-accent text-accent-foreground w-full items-center whitespace-nowrap h-10 py-2 select-none"
+      className="relative flex overflow-hidden border-y border-amber-500/20 bg-white/50 backdrop-blur-sm w-full items-center whitespace-nowrap h-8 py-1 select-none"
       id="marque-top"
     >
       <div className="flex items-center h-full w-max animate-marquee">
-        {displayItems.map((item) => (
-          <div key={item.id} className="flex shrink-0 items-center">
-            <span className="mx-6 text-sm font-semibold uppercase tracking-wider">
+        {displayItems.map((item, index) => (
+          <div
+            key={`${item.id}-${index}`}
+            className="flex shrink-0 items-center"
+          >
+            {/* Teks dengan warna Amber yang elegan dan tipis */}
+            <span className="mx-8 text-[10px] font-medium uppercase tracking-[0.3em] text-amber-600/80">
               {item.text}
             </span>
-            <img
-              src="/assets/logos/logoShortPutih.svg"
-              alt="separator"
-              draggable="false"
-              className="size-5"
-            />
+
+            {/* Separator berupa titik atau garis vertikal kecil untuk kesan minimalis */}
+            <div className="h-1 w-1 rounded-full bg-amber-400/50" />
           </div>
         ))}
       </div>

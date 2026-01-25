@@ -11,7 +11,7 @@ function PageMaintenance() {
   }, [])
 
   return (
-    <div className="relative min-h-[calc(100vh-40px)] p-4 flex items-center justify-center select-none">
+    <div className="relative min-h-[calc(100vh-32px)] p-4 flex items-center justify-center select-none">
       <div className="relative z-10 flex flex-col items-center justify-center gap-6 max-w-3xl text-center">
         {/* Ikon Animasi atau Badge */}
         <div className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium animate-pulse">
