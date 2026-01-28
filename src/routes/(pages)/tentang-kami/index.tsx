@@ -1,4 +1,11 @@
+import {
+  Facebook02Icon,
+  InstagramIcon,
+  TiktokIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { createFileRoute, Link, useLayoutEffect } from '@tanstack/react-router'
+import { ArrowRightIcon } from 'lucide-react'
 import { getTitleHead } from '@/lib/meta'
 
 export const Route = createFileRoute('/(pages)/tentang-kami/')({
@@ -139,17 +146,158 @@ function RouteComponent() {
         </div>
       </section>
 
-      {/* 4. CALL TO ACTION */}
-      <section className="py-20 md:py-32 px-6 text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-6 md:mb-10 tracking-tight uppercase">
-          Bangun Sistem Anda Sekarang
-        </h2>
-        <Link
-          to="/"
-          className="inline-block w-full sm:w-auto px-8 md:px-12 py-4 md:py-5 bg-foreground text-white rounded-full font-bold hover:bg-amber-500 hover:text-amber-950 transition-all text-sm md:text-base active:scale-95 shadow-xl shadow-slate-200"
-        >
-          Konsultasi Teknis Gratis
-        </Link>
+      {/* 3.5 THE MINDS SECTION (About Me/Team) - NEW */}
+      <section className="py-24 px-5 md:px-12 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          {/* Kolom Kiri: Foto/Visual */}
+          <div className="lg:col-span-5 relative group">
+            <div className="relative aspect-4/5 rounded-[3rem] overflow-hidden bg-slate-200 shadow-2xl transition-transform duration-700 group-hover:scale-[0.98]">
+              {/* OVERLAY MOBILE: Hanya di bagian bawah agar teks terbaca, hilang di desktop (lg:hidden) */}
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/60 to-transparent z-10 lg:hidden"></div>
+
+              {/* OVERLAY DESKTOP: Full gradient, muncul hanya di layar besar (hidden lg:block) */}
+              <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/20 to-transparent z-10 hidden lg:block opacity-100 transition-opacity duration-500"></div>
+
+              <img
+                src="/assets/images/profile.JPG"
+                alt="Founder Grodit Studio"
+                className="w-full h-full object-cover grayscale-0 lg:grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+              />
+
+              {/* Floating Tag */}
+              <div className="absolute bottom-8 left-8 z-20">
+                <p className="text-white font-black text-2xl tracking-widest uppercase leading-none drop-shadow-lg lg:drop-shadow-none">
+                  Raditya Dwi <br />
+                  <span className="text-amber-500 text-sm tracking-[0.3em] font-bold">
+                    Lead Architect
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* Dekorasi Bingkai */}
+            <div className="absolute -top-6 -left-6 w-32 h-32 border-t-4 border-l-4 border-amber-500/20 -z-10 rounded-tl-3xl"></div>
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 border-b-4 border-r-4 border-amber-500/20 -z-10 rounded-br-3xl"></div>
+          </div>
+
+          {/* Kolom Kanan: Narasi */}
+          <div className="lg:col-span-7 space-y-8">
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-slate-100 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                The Architect's Story
+              </span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-tight">
+              Digerakkan oleh <br />
+              <span className="italic text-amber-500">Presisi & Inovasi.</span>
+            </h2>
+
+            <div className="space-y-6 text-slate-600 text-lg md:text-xl font-light leading-relaxed">
+              <p>
+                Perjalanan saya dimulai dari obsesi terhadap bagaimana sebuah
+                sistem bekerja di balik layar. Di{' '}
+                <span className="text-foreground font-semibold">
+                  Grodit Studio
+                </span>
+                , saya menggabungkan pengalaman bertahun-tahun dalam
+                pengembangan perangkat lunak untuk memastikan setiap mitra kami
+                tidak hanya mendapatkan aplikasi, tapi sebuah aset digital yang
+                bernilai.
+              </p>
+              <p>
+                Fokus saya adalah menjembatani celah antara visi bisnis yang
+                ambisius dengan realitas teknis yang kompleks. Kami tidak hanya
+                menulis kode; kami membangun fondasi pertumbuhan.
+              </p>
+            </div>
+
+            {/* Socials / Links - Static Minimalist Version */}
+            <div className="flex flex-wrap gap-4 md:gap-5 pt-8">
+              {[
+                {
+                  label: 'Instagram',
+                  link: 'https://instagram.com/username',
+                  Icon: InstagramIcon,
+                },
+                {
+                  label: 'Facebook',
+                  link: 'https://facebook.com/username',
+                  Icon: Facebook02Icon,
+                },
+                {
+                  label: 'Tiktok',
+                  link: 'https://tiktok.com/@username',
+                  Icon: TiktokIcon,
+                },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3"
+                  aria-label={social.label}
+                >
+                  {/* Icon Wrapper - Static Style */}
+                  <div className="size-11 md:size-12 flex items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm text-slate-600">
+                    <HugeiconsIcon
+                      icon={social.Icon}
+                      className="size-5 md:size-5"
+                    />
+                  </div>
+
+                  {/* Label Text - Simple & Clean */}
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">
+                      {social.label}
+                    </span>
+                    {/* Garis statis tipis sebagai aksen arsitektur */}
+                    <div className="h-px w-4 bg-amber-500/40"></div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. CALL TO ACTION - Dark Version */}
+      <section className="py-12 md:py-20 px-5">
+        <div className="is-dark-section max-w-7xl mx-auto relative overflow-hidden bg-slate-950 rounded-[3rem] md:rounded-[4rem] py-20 md:py-32 px-6 text-center shadow-2xl">
+          {/* Aksen Cahaya Latar Belakang */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+          <div className="absolute -top-24 -left-24 w-64 h-64 bg-amber-500/10 blur-[100px] rounded-full"></div>
+          <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-slate-500/10 blur-[100px] rounded-full"></div>
+
+          <div className="relative z-10 flex flex-col items-center">
+            <span className="text-amber-500 text-[10px] md:text-xs font-black uppercase tracking-[0.4em] mb-6">
+              Ready to scale?
+            </span>
+
+            <h2 className="text-3xl md:text-6xl font-black mb-10 md:mb-14 tracking-tighter uppercase text-white leading-[0.9]">
+              Bangun Sistem Anda <br />
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-amber-600">
+                Sekarang Juga.
+              </span>
+            </h2>
+
+            <Link
+              to="/konsultasi"
+              className="group relative flex items-center gap-4 bg-white text-slate-950 px-8 md:px-12 py-4 md:py-5 rounded-full font-bold transition-all hover:bg-amber-500 hover:scale-105 active:scale-95 text-sm md:text-base shadow-xl"
+            >
+              <span>Konsultasi Teknis Gratis</span>
+              <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                <ArrowRightIcon size={18} />
+              </div>
+            </Link>
+
+            <p className="mt-8 text-slate-500 text-[10px] md:text-xs uppercase tracking-widest font-medium">
+              Slot terbatas untuk kuartal ini
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* 5. SIGNATURE OUTRO - Tech focused */}

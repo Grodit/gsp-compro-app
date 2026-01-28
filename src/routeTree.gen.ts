@@ -14,7 +14,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as pagesTentangKamiIndexRouteImport } from './routes/(pages)/tentang-kami/index'
 import { Route as pagesPortofolioIndexRouteImport } from './routes/(pages)/portofolio/index'
 import { Route as pagesLayananIndexRouteImport } from './routes/(pages)/layanan/index'
+import { Route as pagesKonsultasiIndexRouteImport } from './routes/(pages)/konsultasi/index'
 import { Route as pagesKaryaIndexRouteImport } from './routes/(pages)/karya/index'
+import { Route as pagesPortofolioPortofolioIdRouteImport } from './routes/(pages)/portofolio/$portofolioId'
+import { Route as pagesKaryaKaryaIdRouteImport } from './routes/(pages)/karya/$karyaId'
 
 const pagesRouteRoute = pagesRouteRouteImport.update({
   id: '/(pages)',
@@ -40,22 +43,44 @@ const pagesLayananIndexRoute = pagesLayananIndexRouteImport.update({
   path: '/layanan/',
   getParentRoute: () => pagesRouteRoute,
 } as any)
+const pagesKonsultasiIndexRoute = pagesKonsultasiIndexRouteImport.update({
+  id: '/konsultasi/',
+  path: '/konsultasi/',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
 const pagesKaryaIndexRoute = pagesKaryaIndexRouteImport.update({
   id: '/karya/',
   path: '/karya/',
   getParentRoute: () => pagesRouteRoute,
 } as any)
+const pagesPortofolioPortofolioIdRoute =
+  pagesPortofolioPortofolioIdRouteImport.update({
+    id: '/portofolio/$portofolioId',
+    path: '/portofolio/$portofolioId',
+    getParentRoute: () => pagesRouteRoute,
+  } as any)
+const pagesKaryaKaryaIdRoute = pagesKaryaKaryaIdRouteImport.update({
+  id: '/karya/$karyaId',
+  path: '/karya/$karyaId',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/karya/$karyaId': typeof pagesKaryaKaryaIdRoute
+  '/portofolio/$portofolioId': typeof pagesPortofolioPortofolioIdRoute
   '/karya/': typeof pagesKaryaIndexRoute
+  '/konsultasi/': typeof pagesKonsultasiIndexRoute
   '/layanan/': typeof pagesLayananIndexRoute
   '/portofolio/': typeof pagesPortofolioIndexRoute
   '/tentang-kami/': typeof pagesTentangKamiIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/karya/$karyaId': typeof pagesKaryaKaryaIdRoute
+  '/portofolio/$portofolioId': typeof pagesPortofolioPortofolioIdRoute
   '/karya': typeof pagesKaryaIndexRoute
+  '/konsultasi': typeof pagesKonsultasiIndexRoute
   '/layanan': typeof pagesLayananIndexRoute
   '/portofolio': typeof pagesPortofolioIndexRoute
   '/tentang-kami': typeof pagesTentangKamiIndexRoute
@@ -64,21 +89,43 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(pages)': typeof pagesRouteRouteWithChildren
+  '/(pages)/karya/$karyaId': typeof pagesKaryaKaryaIdRoute
+  '/(pages)/portofolio/$portofolioId': typeof pagesPortofolioPortofolioIdRoute
   '/(pages)/karya/': typeof pagesKaryaIndexRoute
+  '/(pages)/konsultasi/': typeof pagesKonsultasiIndexRoute
   '/(pages)/layanan/': typeof pagesLayananIndexRoute
   '/(pages)/portofolio/': typeof pagesPortofolioIndexRoute
   '/(pages)/tentang-kami/': typeof pagesTentangKamiIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/karya/' | '/layanan/' | '/portofolio/' | '/tentang-kami/'
+  fullPaths:
+    | '/'
+    | '/karya/$karyaId'
+    | '/portofolio/$portofolioId'
+    | '/karya/'
+    | '/konsultasi/'
+    | '/layanan/'
+    | '/portofolio/'
+    | '/tentang-kami/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/karya' | '/layanan' | '/portofolio' | '/tentang-kami'
+  to:
+    | '/'
+    | '/karya/$karyaId'
+    | '/portofolio/$portofolioId'
+    | '/karya'
+    | '/konsultasi'
+    | '/layanan'
+    | '/portofolio'
+    | '/tentang-kami'
   id:
     | '__root__'
     | '/'
     | '/(pages)'
+    | '/(pages)/karya/$karyaId'
+    | '/(pages)/portofolio/$portofolioId'
     | '/(pages)/karya/'
+    | '/(pages)/konsultasi/'
     | '/(pages)/layanan/'
     | '/(pages)/portofolio/'
     | '/(pages)/tentang-kami/'
@@ -126,6 +173,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pagesLayananIndexRouteImport
       parentRoute: typeof pagesRouteRoute
     }
+    '/(pages)/konsultasi/': {
+      id: '/(pages)/konsultasi/'
+      path: '/konsultasi'
+      fullPath: '/konsultasi/'
+      preLoaderRoute: typeof pagesKonsultasiIndexRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
     '/(pages)/karya/': {
       id: '/(pages)/karya/'
       path: '/karya'
@@ -133,18 +187,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pagesKaryaIndexRouteImport
       parentRoute: typeof pagesRouteRoute
     }
+    '/(pages)/portofolio/$portofolioId': {
+      id: '/(pages)/portofolio/$portofolioId'
+      path: '/portofolio/$portofolioId'
+      fullPath: '/portofolio/$portofolioId'
+      preLoaderRoute: typeof pagesPortofolioPortofolioIdRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
+    '/(pages)/karya/$karyaId': {
+      id: '/(pages)/karya/$karyaId'
+      path: '/karya/$karyaId'
+      fullPath: '/karya/$karyaId'
+      preLoaderRoute: typeof pagesKaryaKaryaIdRouteImport
+      parentRoute: typeof pagesRouteRoute
+    }
   }
 }
 
 interface pagesRouteRouteChildren {
+  pagesKaryaKaryaIdRoute: typeof pagesKaryaKaryaIdRoute
+  pagesPortofolioPortofolioIdRoute: typeof pagesPortofolioPortofolioIdRoute
   pagesKaryaIndexRoute: typeof pagesKaryaIndexRoute
+  pagesKonsultasiIndexRoute: typeof pagesKonsultasiIndexRoute
   pagesLayananIndexRoute: typeof pagesLayananIndexRoute
   pagesPortofolioIndexRoute: typeof pagesPortofolioIndexRoute
   pagesTentangKamiIndexRoute: typeof pagesTentangKamiIndexRoute
 }
 
 const pagesRouteRouteChildren: pagesRouteRouteChildren = {
+  pagesKaryaKaryaIdRoute: pagesKaryaKaryaIdRoute,
+  pagesPortofolioPortofolioIdRoute: pagesPortofolioPortofolioIdRoute,
   pagesKaryaIndexRoute: pagesKaryaIndexRoute,
+  pagesKonsultasiIndexRoute: pagesKonsultasiIndexRoute,
   pagesLayananIndexRoute: pagesLayananIndexRoute,
   pagesPortofolioIndexRoute: pagesPortofolioIndexRoute,
   pagesTentangKamiIndexRoute: pagesTentangKamiIndexRoute,

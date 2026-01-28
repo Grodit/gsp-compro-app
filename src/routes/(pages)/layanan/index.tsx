@@ -144,7 +144,7 @@ function RouteComponent() {
 
       {/* 3. TECH STACK & METHODOLOGY */}
       <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="bg-slate-950 rounded-[3rem] p-10 md:p-20 text-white relative overflow-hidden">
+        <div className="is-dark-section bg-slate-950 rounded-[3rem] p-10 md:p-20 text-white relative overflow-hidden">
           {/* Subtle Grid Background */}
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
 
@@ -193,7 +193,7 @@ function RouteComponent() {
             yang tepat.
           </p>
           <Link
-            to="/"
+            to="/konsultasi"
             className="px-10 py-5 bg-amber-500 text-amber-950 rounded-full font-black hover:bg-foreground hover:text-white transition-all whitespace-nowrap active:scale-95"
           >
             Kirim Brief Sistem

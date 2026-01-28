@@ -194,35 +194,51 @@ function MobileDrawer({
                   </p>
                 </motion.div>
 
-                {/* Navigasi Links dengan flex-1 agar memenuhi ruang */}
+                {/* Navigasi Links */}
                 <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1.5 custom-scrollbar min-h-50">
                   {NAV_LINKS.map((link) => (
-                    <div key={link.label}>
-                      <Link
-                        to={link.path}
-                        onClick={() => setIsOpen(false)}
-                        className={cn(
-                          'relative flex items-center h-14 px-6 rounded-3xl transition-all text-base font-medium',
-                          isDarkBg ? 'hover:bg-white/5' : 'hover:bg-black/5',
-                        )}
-                      >
-                        {({ isActive }) => (
-                          <>
-                            {isActive && (
-                              <div className="absolute inset-0 bg-amber-600 rounded-3xl -z-10 shadow-lg shadow-amber-600/30" />
+                    <Link
+                      key={link.label}
+                      to={link.path}
+                      activeOptions={{ exact: true }}
+                      onClick={(e) => {
+                        const target = e.currentTarget
+                        // Cek apakah link ini memiliki attribute data-active
+                        if (target.dataset.active === 'true') {
+                          e.preventDefault()
+                          return
+                        }
+                        setIsOpen(false)
+                      }}
+                    >
+                      {({ isActive }) => (
+                        <div
+                          // Gunakan data attribute untuk membantu pengecekan di onClick
+                          data-active={isActive}
+                          className={cn(
+                            'relative flex items-center h-14 px-6 rounded-3xl transition-all text-base font-medium',
+                            isDarkBg ? 'hover:bg-white/5' : 'hover:bg-black/5',
+                            // Gunakan pointer-events-none agar tidak bisa diklik sama sekali saat aktif
+                            isActive && 'pointer-events-none',
+                          )}
+                        >
+                          {isActive && (
+                            <motion.div
+                              layoutId="activeTabMobile"
+                              className="absolute inset-0 bg-amber-600 rounded-3xl -z-10 shadow-lg shadow-amber-600/30"
+                            />
+                          )}
+                          <span
+                            className={cn(
+                              'relative z-10',
+                              isActive ? 'text-white' : 'opacity-60',
                             )}
-                            <span
-                              className={cn(
-                                'relative z-10',
-                                isActive ? 'text-white' : 'opacity-60',
-                              )}
-                            >
-                              {link.label}
-                            </span>
-                          </>
-                        )}
-                      </Link>
-                    </div>
+                          >
+                            {link.label}
+                          </span>
+                        </div>
+                      )}
+                    </Link>
                   ))}
                 </nav>
 
@@ -230,7 +246,7 @@ function MobileDrawer({
                 <div className="p-4 pt-2 shrink-0 border-t border-current/5">
                   <motion.div variants={ANIMATION_VARIANTS.item}>
                     <Link
-                      to="/"
+                      to="/konsultasi"
                       onClick={() => setIsOpen(false)}
                       className="flex items-center justify-between h-15 px-6 rounded-3xl bg-amber-600 text-white shadow-xl active:scale-95"
                     >
@@ -312,10 +328,11 @@ export function MenuFloat() {
                           ? 'text-zinc-400 hover:text-white'
                           : 'text-zinc-500 hover:text-black',
                       )}
+                      activeOptions={{ exact: true }}
                       activeProps={{
                         className: cn(
-                          '!text-white shadow-sm',
-                          isDarkBg ? 'bg-zinc-800' : 'bg-amber-600/80',
+                          '!text-white shadow-sm pointer-events-none',
+                          isDarkBg ? 'bg-amber-500' : 'bg-amber-600',
                         ),
                       }}
                     >
@@ -326,7 +343,7 @@ export function MenuFloat() {
               </ul>
             </nav>
             <Link
-              to="/"
+              to="/konsultasi"
               className={cn(
                 'size-14 flex items-center justify-center rounded-xl transition-all shadow-lg active:scale-90 group',
                 isDarkBg
